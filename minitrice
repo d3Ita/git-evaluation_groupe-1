@@ -33,9 +33,13 @@ def format_result(result):
 
 
 def main():
+    interactive = sys.stdin.isatty()     # ajout stdin
+
     try:
         while True:
-            print("> ", end="", flush=True)
+            if interactive:
+                print("> ", end="", flush=True)
+
             line = input()  # demande l'entre
 
             if not line.strip():
@@ -45,8 +49,9 @@ def main():
             if result is not None:
                 print(format_result(result))
     except EOFError:
-        print()
-        print("Fin des calculs :)")
+        if interactive:
+            print()
+            print("Fin des calculs :)")
 
     sys.exit(0)
 
