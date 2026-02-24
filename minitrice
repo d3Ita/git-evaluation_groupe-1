@@ -8,14 +8,19 @@ def compute(expression):
     """Calcule le résultat d'une expression arithmétique."""
     expr = expression.strip()
     for i in range(1, len(expr)):
-        if expr[i] == '+': # addition
+        if expr[i] in '+-*/':
             a = float(expr[:i])
             b = float(expr[i+1:])
-            return a + b
-        elif expr[i] == '-':    # soustraction
-            a = float(expr[:i])
-            b = float(expr[i+1:])
-            return a - b
+            op = expr[i]
+
+            if op == '+':   # addition
+                return a + b
+            elif op == '-': #soustraction
+                return a - b
+            elif op == '*': # multiplication
+                return a * b
+            elif op == '/': # division
+                return a / b
 
     return None
 
@@ -31,7 +36,7 @@ def main():
     try:
         while True:
             print("> ", end="", flush=True)
-            line = input() # demande l'entre
+            line = input()  # demande l'entre
 
             if not line.strip():
                 continue
