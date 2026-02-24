@@ -4,6 +4,7 @@
 import sys
 import re
 
+
 def parse_expression(expression):
     """Valide et parse une expression arithmétique avec regex."""
     expr = expression.strip()
@@ -50,6 +51,7 @@ def format_result(result):
 
 def main():
     interactive = sys.stdin.isatty()
+    exit_code = 0
 
     try:
         while True:
@@ -66,15 +68,17 @@ def main():
                 print(format_result(result))
             except SyntaxError:
                 print(f'Erreur de syntaxe pour le calcul: "{line.strip()}"')
+                exit_code = 1
             except ZeroDivisionError:
                 print("Division par zéro")
+                exit_code = 1
 
     except EOFError:
         if interactive:
             print()
             print("Fin des calculs :)")
 
-    sys.exit(0)
+    sys.exit(exit_code)
 
 
 if __name__ == "__main__":
