@@ -2,7 +2,27 @@
 """Minitrice - Calculatrice arithmétique élémentaire."""
 
 import sys
+import re
 
+def parse_expression(expression):
+    """Valide et parse une expression arithmétique avec regex."""
+    expr = expression.strip()
+
+    if not expr:
+        raise SyntaxError("Expression vide")
+
+    # Regex : nombre positif (opérateur) nombre positif
+    pattern = r'^(\d+(\.\d+)?)\s*([+\-*/])\s*(\d+(\.\d+)?)$'
+    match = re.match(pattern, expr)
+
+    if not match:
+        raise SyntaxError(expr)
+
+    a = float(match.group(1))
+    op = match.group(3)
+    b = float(match.group(4))
+
+    return a, op, b
 
 def compute(expression):
     """Calcule le résultat d'une expression arithmétique."""
