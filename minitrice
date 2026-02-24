@@ -23,30 +23,41 @@ def parse_expression(expression):
     op = match.group(3)
     b = float(match.group(4))
 
-    return a, op, b
+    return a, op, b, match
 
 
 def compute(expression):
     """Calcule le résultat d'une expression arithmétique."""
-    a, op, b = parse_expression(expression)
+    a, op, b, match = parse_expression(expression)
 
     if op == '+':
-        return a + b
+        result = a + b
     elif op == '-':
-        return a - b
+        result = a - b
     elif op == '*':
-        return a * b
+        result = a * b
     elif op == '/':
         if b == 0:
             raise ZeroDivisionError()
-        return a / b
+        result = a / b
+
+    return result, op, match
 
 
-def format_result(result):
-    """Formate le résultat pour l'affichage."""
-    if result == int(result):
+def format_result(result, op, match):
+    """Formate le résultat pour l'affichage.
+
+    - Entier si le résultat est entier et pas une division
+    - Arrondi à 2 décimales si partie décimale grande
+    - Float pour les divisions avec résultat entier (ex: 8/2 -> 4.0)
+    """
+    has_decimal_input = '.' in match.group(1) or '.' in match.group(4)
+
+    if result == int(result) and op != '/' and not has_decimal_input:
         return str(int(result))
-    return str(result)
+    else:
+        rounded = round(result, 2)
+        return str(rounded)
 
 
 def main():
@@ -64,8 +75,8 @@ def main():
                 continue
 
             try:
-                result = compute(line)
-                print(format_result(result))
+                result, op, match = compute(line)
+                print(format_result(result, op, match))
             except SyntaxError:
                 print(f'Erreur de syntaxe pour le calcul: "{line.strip()}"')
                 exit_code = 1
