@@ -6,6 +6,12 @@ import random
 
 
 def main():
+    
+    if len(sys.argv) < 2:
+        print("Erreur : veuillez fournir le nombre d'expressions à générer.", file=sys.stderr)
+        print("Utilisation : ./generator <nombre>", file=sys.stderr)
+        sys.exit(1)
+
     n = int(sys.argv[1])
 
     operations = ['+', '-', '*', '/']
