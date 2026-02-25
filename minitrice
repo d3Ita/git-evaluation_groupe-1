@@ -2,58 +2,94 @@
 """Minitrice - Calculatrice arithmétique élémentaire."""
 
 import sys
+import re
+
+
+def parse_expression(expression):
+    """Valide et parse une expression arithmétique avec regex."""
+    expr = expression.strip()
+
+    if not expr:
+        raise SyntaxError("Expression vide")
+
+    # Regex : nombre positif (opérateur) nombre positif
+    pattern = r'^(\d+(\.\d+)?)\s*([+\-*/])\s*(\d+(\.\d+)?)$'
+    match = re.match(pattern, expr)
+
+    if not match:
+        raise SyntaxError(expr)
+
+    a = float(match.group(1))
+    op = match.group(3)
+    b = float(match.group(4))
+
+    return a, op, b, match
 
 
 def compute(expression):
     """Calcule le résultat d'une expression arithmétique."""
-    expr = expression.strip()
-    for i in range(1, len(expr)):
-        if expr[i] in '+-*/':
-            a = float(expr[:i])
-            b = float(expr[i+1:])
-            op = expr[i]
+    a, op, b, match = parse_expression(expression)
 
-            if op == '+':   # addition
-                return a + b
-            elif op == '-': #soustraction
-                return a - b
-            elif op == '*': # multiplication
-                return a * b
-            elif op == '/': # division
-                return a / b
+    if op == '+':
+        result = a + b
+    elif op == '-':
+        result = a - b
+    elif op == '*':
+        result = a * b
+    elif op == '/':
+        if b == 0:
+            raise ZeroDivisionError()
+        result = a / b
 
-    return None
+    return result, op, match
 
 
-def format_result(result):
-    """Formate le résultat pour l'affichage."""
-    if result == int(result):
+def format_result(result, op, match):
+    """Formate le résultat pour l'affichage.
+
+    - Entier si le résultat est entier et pas une division
+    - Arrondi à 2 décimales si partie décimale grande
+    - Float pour les divisions avec résultat entier (ex: 8/2 -> 4.0)
+    """
+    has_decimal_input = '.' in match.group(1) or '.' in match.group(4)
+
+    if result == int(result) and op != '/' and not has_decimal_input:
         return str(int(result))
-    return str(result)
+    else:
+        rounded = round(result, 2)
+        return str(rounded)
 
 
 def main():
-    interactive = sys.stdin.isatty()     # ajout stdin
+    interactive = sys.stdin.isatty()
+    exit_code = 0
 
     try:
         while True:
             if interactive:
                 print("> ", end="", flush=True)
 
-            line = input()  # demande l'entre
+            line = input()
 
             if not line.strip():
                 continue
 
-            result = compute(line)
-            if result is not None:
-                print(format_result(result))
+            try:
+                result, op, match = compute(line)
+                print(format_result(result, op, match))
+            except SyntaxError:
+                print(f'Erreur de syntaxe pour le calcul: "{line.strip()}"')
+                exit_code = 1
+            except ZeroDivisionError:
+                print("Division par zéro")
+                exit_code = 1
+
     except EOFError:
         if interactive:
             print()
             print("Fin des calculs :)")
 
-    sys.exit(0)
+    sys.exit(exit_code)
 
 
 if __name__ == "__main__":
