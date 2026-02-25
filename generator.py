@@ -6,17 +6,27 @@ import random
 
 
 def main():
-    #Erreur : Aucun argument 
+    #Gestion erreur : pas d'argument
     if len(sys.argv) < 2:
         print("Erreur : veuillez fournir le nombre d'expressions à générer.", file=sys.stderr)
         print("Utilisation : ./generator <nombre>", file=sys.stderr)
         sys.exit(1)
 
-    #Erreur : Argument non entier 
+    #Gestion erreur : argument non entier
     try:
         n = int(sys.argv[1])
     except ValueError:
         print(f'Erreur : "{sys.argv[1]}" n\'est pas un entier valide.', file=sys.stderr)
+        sys.exit(1)
+
+    #Gestion erreur : nombre négatif ou nul 
+    if n <= 0:
+        print("Erreur : le nombre d'expressions doit être un entier positif.", file=sys.stderr)
+        sys.exit(1)
+
+    #Gestion erreur : nombre beaucoup trop grand
+    if n > 1000000:
+        print("Erreur : le nombre d'expressions demandé est trop grand (max: 1000000).", file=sys.stderr)
         sys.exit(1)
 
     operations = ['+', '-', '*', '/']
