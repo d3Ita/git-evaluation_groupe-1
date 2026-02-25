@@ -162,3 +162,18 @@ Erreur : le nombre d'expressions demandé est trop grand (max: 1000000).
 $ echo $?
 1
 ```
+
+## Publication
+
+Lien vers la vidéo Gource : [À compléter après publication sur YouTube]
+
+## Liens utiles
+
+- [Support de cours git/github](https://github.com/frozar/git-evaluation) : organisation du développement collaboratif
+- [How to capture Control+D signal?](https://stackoverflow.com/questions/21997723/how-to-capture-controld-signal) : discussion sur l'interception du signal EOF
+- [Detect pipe in Python](https://stackoverflow.com/questions/13442574/find-out-if-there-is-input-from-a-pipe-or-not-in-python) : détection de l'utilisation d'un pipe en Python
+- [My Gource video production pipeline](https://medium.com/@brentgr/my-gource-video-production-pipeline-6a52c1560252) : exemple d'utilisation de gource
+- [Philosophie d'Unix](https://fr.wikipedia.org/wiki/Philosophie_d%27Unix) : description de la philosophie Unix
+- [Pipeline Unix](https://fr.wikipedia.org/wiki/Pipeline_(Unix)) : description du pipe
+- [Python input()](https://docs.python.org/3/library/functions.html#input) : documentation de la fonction input
+- [Python eval()](https://docs.python.org/3/library/functions.html#eval) : documentation de la fonction eval
