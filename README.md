@@ -102,3 +102,63 @@ Division par zéro
 $ echo $?
 1
 ```
+
+## Generator
+
+### Utilisation
+
+```bash
+$ ./generator 5
+342+718
+91*3
+500/25
+87-42
+123+456
+```
+
+### Composition avec minitrice
+
+```bash
+$ ./generator 5 | ./minitrice
+```
+
+### Gestion des erreurs
+
+Le programme `generator` gère les erreurs suivantes :
+
+1. **Argument manquant** : si aucun argument n'est fourni, un message d'erreur et l'utilisation correcte sont affichés.
+
+```bash
+$ ./generator
+Erreur : veuillez fournir le nombre d'expressions à générer.
+Utilisation : ./generator <nombre>
+$ echo $?
+1
+```
+
+2. **Argument non entier** : si l'argument n'est pas un nombre entier valide.
+
+```bash
+$ ./generator abc
+Erreur : "abc" n'est pas un entier valide.
+$ echo $?
+1
+```
+
+3. **Nombre négatif ou nul** : si l'argument est inférieur ou égal à 0.
+
+```bash
+$ ./generator -5
+Erreur : le nombre d'expressions doit être un entier positif.
+$ echo $?
+1
+```
+
+4. **Nombre trop grand** : si l'argument dépasse 1 000 000.
+
+```bash
+$ ./generator 9999999
+Erreur : le nombre d'expressions demandé est trop grand (max: 1000000).
+$ echo $?
+1
+```
