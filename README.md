@@ -165,7 +165,7 @@ $ echo $?
 
 ## Publication
 
-Lien vers la vidéo Gource : [À compléter après publication sur YouTube]
+Lien vers la vidéo Gource : https://youtu.be/QCjRg1yvmjI
 
 ## Liens utiles
 
